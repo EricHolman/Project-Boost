@@ -9,6 +9,7 @@ public class Movement : MonoBehaviour
 
 
     [SerializeField] float mainThrustForce = 100f;
+    [SerializeField] float rocketRotateDegree = 10f;
 
     // Start is called before the first frame update
     void Start()
@@ -36,12 +37,16 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A))
         {
-            Debug.Log("Pressed A - Rotate Left");
+            ApplyRotation(rocketRotateDegree);
         }
         else if (Input.GetKey(KeyCode.D))       /*otherwise*/
         {
-            Debug.Log("Pressed D - Rotate Right");
+            ApplyRotation(-rocketRotateDegree);
         }
     }
 
+    private void ApplyRotation(float rotationThisFrame)
+    {
+        transform.Rotate(Vector3.forward * rotationThisFrame * Time.deltaTime);
+    }
 }

@@ -12,7 +12,7 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("You ran into a friendly");
                 break;
             case "Finish":
-                Debug.Log("You ran into the finish pad");
+                LoadNextLevel();
                 break;
             case "Fuel":
                 Debug.Log("You ran into fuel");
@@ -31,6 +31,20 @@ public class CollisionHandler : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
         SceneManager.LoadScene(currentSceneIndex);
+    }
+
+    void LoadNextLevel()
+    {
+
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        int nextSceneIndex = currentSceneIndex + 1;
+
+        if (nextSceneIndex == SceneManager.sceneCountInBuildSettings)
+        {
+            nextSceneIndex = 0;
+        }
+
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
 

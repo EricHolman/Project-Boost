@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 public class CollisionHandler : MonoBehaviour
 {
@@ -16,10 +18,20 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("You ran into fuel");
                 break;
             default:
-                Debug.Log("You ran into a default");
+                ReloadLevel();
                 break;
 
         }
 
     }
+
+
+    void ReloadLevel()
+    {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+
+        SceneManager.LoadScene(currentSceneIndex);
+    }
+
+
 }

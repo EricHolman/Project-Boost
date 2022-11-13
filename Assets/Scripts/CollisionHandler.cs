@@ -4,7 +4,18 @@ using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
-    [SerializeField] float delay = 1f;
+    [SerializeField] float delayForCrash = 1f;
+    [SerializeField] float delayForNextLevel = 1f;
+    [SerializeField] AudioClip finishSoundEffect;
+    [SerializeField] AudioClip crashSoundEffect;
+
+    AudioSource audioSource;
+
+
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
 
     void OnCollisionEnter(Collision other)
@@ -16,9 +27,11 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("You ran into a friendly");
                 break;
             case "Finish":
+                audioSource.PlayOneShot(finishSoundEffect);
                 StartNextLevelSequence();
                 break;
             default:
+                audioSource.PlayOneShot(crashSoundEffect);
                 StartCrashSequence();
                 break;
 
@@ -30,13 +43,13 @@ public class CollisionHandler : MonoBehaviour
     void StartCrashSequence()
     {
         GetComponent<Movement>().enabled = false;
-        Invoke("ReloadLevel", delay);
+        Invoke("ReloadLevel", delayForCrash);
     }
 
     void StartNextLevelSequence()
     {
         GetComponent<Movement>().enabled = false;
-        Invoke("LoadNextLevel", delay);
+        Invoke("LoadNextLevel", delayForNextLevel);
     }
 
 

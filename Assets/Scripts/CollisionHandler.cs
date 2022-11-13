@@ -11,6 +11,7 @@ public class CollisionHandler : MonoBehaviour
 
     AudioSource audioSource;
 
+    bool isTransitioning = false;
 
     void Start()
     {
@@ -20,6 +21,7 @@ public class CollisionHandler : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
+        if (isTransitioning) { return; }
 
         switch (other.gameObject.tag)
         {
@@ -27,11 +29,9 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log("You ran into a friendly");
                 break;
             case "Finish":
-                audioSource.PlayOneShot(finishSoundEffect);
                 StartNextLevelSequence();
                 break;
             default:
-                audioSource.PlayOneShot(crashSoundEffect);
                 StartCrashSequence();
                 break;
 
@@ -42,12 +42,18 @@ public class CollisionHandler : MonoBehaviour
 
     void StartCrashSequence()
     {
+        isTransitioning = true;
+        audioSource.Stop();
+        audioSource.PlayOneShot(crashSoundEffect);
         GetComponent<Movement>().enabled = false;
         Invoke("ReloadLevel", delayForCrash);
     }
 
     void StartNextLevelSequence()
     {
+        isTransitioning = true;
+        audioSource.Stop();
+        audioSource.PlayOneShot(finishSoundEffect);
         GetComponent<Movement>().enabled = false;
         Invoke("LoadNextLevel", delayForNextLevel);
     }
@@ -73,6 +79,7 @@ public class CollisionHandler : MonoBehaviour
 
         SceneManager.LoadScene(nextSceneIndex);
     }
+
 
 
 }

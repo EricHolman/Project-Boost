@@ -12,8 +12,6 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] ParticleSystem crashParticleEffect;
 
 
-
-
     AudioSource audioSource;
 
     bool isTransitioning = false;
